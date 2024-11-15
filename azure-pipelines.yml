@@ -20,10 +20,51 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - task: Docker@2
-      displayName: Build an image
+    
+    - task: oc-cmd@3
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/WeatherForecast/Dockerfile'
-        tags: |
-          $(tag)
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift'
+        version: '4.17'
+        cmd: 'oc project weatherforecast'
+    
+    - task: oc-cmd@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift cluster'
+        version: '4.17'
+        cmd: 'oc project myapp'
+      displayName: Switch to myapp project
+
+    - task: oc-cmd@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift cluster'
+        version: '4.17'
+        cmd: 'oc new-app https://github.com/Bashayr29/simple-app.git'
+        ignoreFlag: true
+        
+    - task: oc-cmd@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift cluster'
+        version: '4.17'
+        cmd: 'oc expose svc simple-app'
+        ignoreFlag: true
+      displayName: Create route
+
+    - task: oc-cmd@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift cluster'
+        version: '4.17'
+        cmd: 'oc start-build simple-app --follow'
+      displayName: Start new build
+
+    - task: oc-cmd@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift cluster'
+        version: '4.17'
+        cmd: 'oc status'
+         
