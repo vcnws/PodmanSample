@@ -46,4 +46,4 @@ stages:
       inputs:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'OpenShift'
-        cmd: 'oc new-app --strategy=source --source-secret="git-vcnws" --name="podmansample"  https://github.com/vcnws/PodmanSample.git'
+        cmd: 'oc new-app https://github.com/vcnws/PodmanSample.git --context-dir="WeatherForecast" --source-secret="git-vcnws" --name="podmansample"'
