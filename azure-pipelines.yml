@@ -30,6 +30,15 @@ stages:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'OpenShift'
         cmd: 'oc version'
+
+    - task: oc-cmd@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift'
+        cmd: 'oc project PodmanSample'   
     
-    
-         
+    - task: oc-cmd@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift'
+        cmd: 'oc new-app https://github.com/vcnws/PodmanSample.git'
