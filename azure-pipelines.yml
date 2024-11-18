@@ -20,25 +20,30 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+
     - task: oc-setup@3
+      displayName: 'OC Setup'
       inputs:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'OpenShift'
 
     - task: oc-cmd@3
+      displayName: 'OC Version'
       inputs:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'OpenShift'
         cmd: 'oc version'
 
     - task: oc-cmd@3
+      displayName: 'OC Switch Project'
       inputs:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'OpenShift'
-        cmd: 'oc project PodmanSample'   
+        cmd: 'oc project christophercrawford-dev'   
     
     - task: oc-cmd@3
+      displayName: 'OC New App'
       inputs:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'OpenShift'
-        cmd: 'oc new-app https://github.com/vcnws/PodmanSample.git'
+        cmd: 'oc new-app --name="podmansample"  https://github.com/vcnws/PodmanSample.git'
