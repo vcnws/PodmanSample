@@ -20,12 +20,15 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    
+    - task: oc-setup@3
+      inputs:
+        connectionType: 'OpenShift Connection Service'
+        openshiftService: 'OpenShift'
+
     - task: oc-cmd@3
       inputs:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'OpenShift'
-        version: '4.17'
         cmd: 'oc version'
     
     
